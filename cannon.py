@@ -16,15 +16,15 @@ from freegames import vector
 ball = vector(-200, -200)
 speed = vector(0, 0)
 targets = []
-
+ball_speed_base = 250
 
 def tap(x, y):
     """Respond to screen tap."""
     if not inside(ball):
         ball.x = -199
         ball.y = -199
-        speed.x = (x + 200) / 25
-        speed.y = (y + 200) / 25
+        speed.x = (x + ball_speed_base) / 25
+        speed.y = (y + ball_speed_base) / 25
 
 
 def inside(xy):
