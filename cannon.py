@@ -17,6 +17,9 @@ ball = vector(-200, -200)
 speed = vector(0, 0)
 targets = []
 ball_speed_base = 250
+balloon_colors = ["yellow","green","blue","purple"]
+ballon_speeds = [0.1,0.5,1,2]
+
 
 def tap(x, y):
     """Respond to screen tap."""
@@ -36,9 +39,9 @@ def draw():
     """Draw ball and targets."""
     clear()
 
-    for target in targets:
-        goto(target.x, target.y)
-        dot(20, 'blue')
+    for target_loc,target_speed in targets:
+        goto(target_loc.x, target_loc.y)
+        dot(20, balloon_colors[target_speed])
 
     if inside(ball):
         goto(ball.x, ball.y)
@@ -52,10 +55,11 @@ def move():
     if randrange(40) == 0:
         y = randrange(-150, 150)
         target = vector(200, y)
-        targets.append(target)
+        target_speed = randrange(4)
+        targets.append((target,target_speed))
 
-    for target in targets:
-        target.x -= 0.5
+    for target_loc,targ_speed in targets:
+        target_loc.x -= targ_speed
 
     if inside(ball):
         speed.y -= 0.35
@@ -65,13 +69,13 @@ def move():
     targets.clear()
 
     for target in dupe:
-        if abs(target - ball) > 13:
+        if abs(target[0] - ball) > 13:
             targets.append(target)
 
     draw()
 
     for target in targets:
-        if not inside(target):
+        if not inside(target[0]):
             return
 
     ontimer(move, 50)
